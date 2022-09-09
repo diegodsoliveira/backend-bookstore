@@ -1,19 +1,24 @@
 package com.diego.bookstore.model;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Entity
 public class Categoria implements Serializable {
 
     private static final long serialVersionUID = -5303364689501973300L;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String titulo;
     private String nomeAutor;
     private String texto;
 
+    @OneToMany(mappedBy = "categoria")
     private List<Livro> livros = new ArrayList<>();
 
     public Categoria(Integer id, String titulo, String nomeAutor, String texto) {

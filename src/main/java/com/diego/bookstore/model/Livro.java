@@ -1,6 +1,6 @@
 package com.diego.bookstore.model;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -9,10 +9,14 @@ public class Livro implements Serializable {
 
    private static final long serialVersionUID = -358539280123462305L;
 
+   @Id
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Integer id;
    private String nome;
    private String descricao;
 
+   @ManyToOne
+   @JoinColumn(name = "categoria_id")
    private Categoria categoria;
 
    public Livro() {
