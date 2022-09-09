@@ -1,79 +1,86 @@
 package com.diego.bookstore.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 public class Livro implements Serializable {
 
-   private static final long serialVersionUID = -358539280123462305L;
+    private static final long serialVersionUID = -5303364689501973300L;
 
-   @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
-   private Integer id;
-   private String nome;
-   private String descricao;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    private String titulo;
+    private String nomeAutor;
+    private String texto;
 
-   @JsonIgnore
-   @ManyToOne
-   @JoinColumn(name = "categoria_id")
-   private Categoria categoria;
+    @OneToMany(mappedBy = "categoria")
+    private List<Categoria> categorias = new ArrayList<>();
 
-   public Livro() {
-   }
+    public Livro(Integer id, String titulo, String nomeAutor, String texto) {
+        this.id = id;
+        this.titulo = titulo;
+        this.nomeAutor = nomeAutor;
+        this.texto = texto;
+    }
 
-   public Livro(Integer id, String nome, String descricao, Categoria categoria) {
-      this.id = id;
-      this.nome = nome;
-      this.descricao = descricao;
-      this.categoria = categoria;
-   }
+    public Livro() {
+    }
 
-   public Integer getId() {
-      return id;
-   }
+    public Integer getId() {
+        return id;
+    }
 
-   public void setId(Integer id) {
-      this.id = id;
-   }
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-   public String getNome() {
-      return nome;
-   }
+    public String getTitulo() {
+        return titulo;
+    }
 
-   public void setNome(String nome) {
-      this.nome = nome;
-   }
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
 
-   public String getDescricao() {
-      return descricao;
-   }
+    public String getNomeAutor() {
+        return nomeAutor;
+    }
 
-   public void setDescricao(String descricao) {
-      this.descricao = descricao;
-   }
+    public void setNomeAutor(String nomeAutor) {
+        this.nomeAutor = nomeAutor;
+    }
 
-   public Categoria getCategoria() {
-      return categoria;
-   }
+    public String getTexto() {
+        return texto;
+    }
 
-   public void setCategoria(Categoria categoria) {
-      this.categoria = categoria;
-   }
+    public void setTexto(String texto) {
+        this.texto = texto;
+    }
 
-   @Override
-   public boolean equals(Object o) {
-      if (this == o) return true;
-      if (!(o instanceof Livro)) return false;
-      Livro livro = (Livro) o;
-      return getId().equals(livro.getId());
-   }
+    public List<Categoria> getLivros() {
+        return categorias;
+    }
 
-   @Override
-   public int hashCode() {
-      return Objects.hash(getId());
-   }
+    public void setLivros(List<Categoria> categorias) {
+        this.categorias = categorias;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Livro)) return false;
+        Livro livro = (Livro) o;
+        return Objects.equals(getId(), livro.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
+    }
 }
