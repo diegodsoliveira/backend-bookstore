@@ -47,4 +47,9 @@ public class LivroService {
         obj.setCategoria(cat);
         return livroRepository.save(obj);
     }
+
+    public void delete(Integer id) {
+        findById(id);
+        livroRepository.deleteById(id);
+    }
 }
