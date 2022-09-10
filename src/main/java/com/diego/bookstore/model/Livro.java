@@ -2,8 +2,6 @@ package com.diego.bookstore.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -18,17 +16,19 @@ public class Livro implements Serializable {
     private String nomeAutor;
     private String texto;
 
-    @OneToMany(mappedBy = "categoria")
-    private List<Categoria> categorias = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "categoria_id")
+    private Categoria categoria;
 
-    public Livro(Integer id, String titulo, String nomeAutor, String texto) {
+    public Livro() {
+    }
+
+    public Livro(Integer id, String titulo, String nomeAutor, String texto, Categoria categoria) {
         this.id = id;
         this.titulo = titulo;
         this.nomeAutor = nomeAutor;
         this.texto = texto;
-    }
-
-    public Livro() {
+        this.categoria = categoria;
     }
 
     public Integer getId() {
@@ -63,12 +63,12 @@ public class Livro implements Serializable {
         this.texto = texto;
     }
 
-    public List<Categoria> getLivros() {
-        return categorias;
+    public Categoria getCategoria() {
+        return categoria;
     }
 
-    public void setLivros(List<Categoria> categorias) {
-        this.categorias = categorias;
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 
     @Override
@@ -76,11 +76,11 @@ public class Livro implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Livro)) return false;
         Livro livro = (Livro) o;
-        return Objects.equals(getId(), livro.getId());
+        return Objects.equals(getId(), livro.getId()) && Objects.equals(getTitulo(), livro.getTitulo()) && Objects.equals(getNomeAutor(), livro.getNomeAutor()) && Objects.equals(getTexto(), livro.getTexto()) && Objects.equals(getCategoria(), livro.getCategoria());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId());
+        return Objects.hash(getId(), getTitulo(), getNomeAutor(), getTexto(), getCategoria());
     }
 }

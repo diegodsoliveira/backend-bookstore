@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -18,18 +20,17 @@ public class Categoria implements Serializable {
     private String descricao;
 
     @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "categoria_id")
-    private Livro livro;
+    @OneToMany(mappedBy = "categoria")
+    private List<Livro> livros = new ArrayList<>();
 
     public Categoria() {
     }
 
-    public Categoria(Integer id, String nome, String descricao, Livro livro) {
+    public Categoria(Integer id, String nome, String descricao, List<Livro> livros) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
-        this.livro = livro;
+        this.livros = livros;
     }
 
     public Integer getId() {
@@ -56,12 +57,12 @@ public class Categoria implements Serializable {
         this.descricao = descricao;
     }
 
-    public Livro getCategoria() {
-        return livro;
+    public List<Livro> getLivros() {
+        return livros;
     }
 
-    public void setCategoria(Livro livro) {
-        this.livro = livro;
+    public void setLivros(List<Livro> livros) {
+        this.livros = livros;
     }
 
     @Override
@@ -69,11 +70,11 @@ public class Categoria implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Categoria)) return false;
         Categoria categoria = (Categoria) o;
-        return getId().equals(categoria.getId());
+        return Objects.equals(getId(), categoria.getId()) && Objects.equals(getNome(), categoria.getNome()) && Objects.equals(getDescricao(), categoria.getDescricao()) && Objects.equals(getLivros(), categoria.getLivros());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId());
+        return Objects.hash(getId(), getNome(), getDescricao(), getLivros());
     }
 }
