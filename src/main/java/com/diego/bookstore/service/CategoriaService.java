@@ -1,5 +1,6 @@
 package com.diego.bookstore.service;
 
+import com.diego.bookstore.dtos.CategoriaDTO;
 import com.diego.bookstore.model.Categoria;
 import com.diego.bookstore.repository.CategoriaRepository;
 import com.diego.bookstore.service.exceptions.ObjectNotFoundException;
@@ -26,6 +27,13 @@ public class CategoriaService {
 
     public Categoria create(Categoria obj) {
         obj.setId(null);
+        return categoriaRepository.save(obj);
+    }
+
+    public Categoria update(Integer id, CategoriaDTO objDto) {
+        Categoria obj = findById(id);
+        obj.setNome(objDto.getNome());
+        obj.setDescricao(obj.getDescricao());
         return categoriaRepository.save(obj);
     }
 }
