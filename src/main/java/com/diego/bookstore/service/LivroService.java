@@ -1,5 +1,6 @@
 package com.diego.bookstore.service;
 
+import com.diego.bookstore.model.Categoria;
 import com.diego.bookstore.model.Livro;
 import com.diego.bookstore.repository.LivroRepository;
 import com.diego.bookstore.service.exceptions.ObjectNotFoundException;
@@ -38,5 +39,12 @@ public class LivroService {
         newObj.setTitulo(obj.getTitulo());
         newObj.setTexto(obj.getTexto());
         newObj.setNomeAutor(obj.getNomeAutor());
+    }
+
+    public Livro create(Integer idCat, Livro obj) {
+        obj.setId(null);
+        Categoria cat = categoriaService.findById(idCat);
+        obj.setCategoria(cat);
+        return livroRepository.save(obj);
     }
 }
