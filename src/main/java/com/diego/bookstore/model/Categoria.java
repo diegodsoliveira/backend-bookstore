@@ -31,11 +31,10 @@ public class Categoria implements Serializable {
     public Categoria() {
     }
 
-    public Categoria(Integer id, String nome, String descricao, List<Livro> livros) {
+    public Categoria(Integer id, String nome, String descricao) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
-        this.livros = livros;
     }
 
     public Integer getId() {
